@@ -1,6 +1,7 @@
 package guru.springframework.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,28 +16,30 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    @Lob
     private String direction;
 
 //    private Dificulty dificulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredientSet;
+    private Set<Ingredient> ingredientSet = new HashSet<>();
 
     @Lob
     private Byte[] image;
 
     @Enumerated(value = EnumType.STRING)
-    private Dificulty dificulty;
+    private Difficulty difficulty;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
     @ManyToMany
     @JoinTable(name = "recipe_category",
-    joinColumns = @JoinColumn(columnDefinition = "recipe_id"),
+            joinColumns = @JoinColumn(columnDefinition = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
 
-    private Set<Category>categories;
+    private Set<Category> categories = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -94,11 +97,11 @@ public class Recipe {
         this.url = url;
     }
 
-    public String getDirection() {
+    public String getDirections() {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirections(String direction) {
         this.direction = direction;
     }
 
@@ -116,22 +119,29 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+        notes.setRecipe(this);
     }
 
-    public Set<Ingredient> getIngredientSet() {
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredientSet.add(ingredient);
+        return this;
+    }
+
+    public Set<Ingredient> getIngredients() {
         return ingredientSet;
     }
 
-    public void setIngredientSet(Set<Ingredient> ingredientSet) {
+    public void setIngredients(Set<Ingredient> ingredientSet) {
         this.ingredientSet = ingredientSet;
     }
 
-    public Dificulty getDificulty() {
-        return dificulty;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setDificulty(Dificulty dificulty) {
-        this.dificulty = dificulty;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Set<Category> getCategories() {
