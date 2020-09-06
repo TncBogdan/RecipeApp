@@ -1,6 +1,6 @@
-package guru.springframework.services;
+package com.tnc.services;
 
-import guru.springframework.domain.Recipe;
+import com.tnc.domain.Recipe;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

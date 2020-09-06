@@ -1,6 +1,6 @@
-package guru.springframework.repositories;
+package com.tnc.repositories;
 
-import guru.springframework.domain.UnitOfMeasure;
+import com.tnc.domain.UnitOfMeasure;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
